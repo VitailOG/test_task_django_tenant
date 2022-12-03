@@ -122,4 +122,3 @@ docker-compose up -d
   - Retrieve Product:
     - Method - GET
     - Uri - http://subdomain.localhost:8002/retrieve-product/<product_id>/
-    
