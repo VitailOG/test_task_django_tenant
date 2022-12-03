@@ -16,7 +16,7 @@ class RestaurantCreator:
     name: str
     address: str
 
-    def __call__(self) -> None:
+    def __call__(self) -> int:
         with transaction.atomic():
             random_schema_name = self._gen_schema_name()
             tenant = Restaurant.objects.create(
@@ -29,6 +29,7 @@ class RestaurantCreator:
                 tenant_id=tenant.id,
                 domain=random_schema_name + f'.{settings.DOMAIN}'
             )
+            return tenant.id
 
     def _gen_schema_name(self) -> str:
         return str(self.owner.id) + ''.join(random.choice(string.ascii_lowercase) for _ in range(5))

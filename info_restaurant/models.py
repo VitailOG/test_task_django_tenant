@@ -27,7 +27,6 @@ class NullForeignKey(models.ForeignKey):
 
 
 class Menu(models.Model):
-    # restaurant = models.ForeignKey(Restaurant, on_delete=models.SET_NULL, null=True)
     restaurant = NullForeignKey(Restaurant)
     type = models.CharField(verbose_name='Тип меню', max_length=50)
 
@@ -37,7 +36,6 @@ class Menu(models.Model):
 
 
 class Category(models.Model):
-    # menu = models.ForeignKey(Menu, on_delete=models.SET_NULL, null=True, related_name='categories')
     menu = NullForeignKey(Menu, related_name='categories')
     name = models.CharField(verbose_name='Назва категорії', max_length=50)
 
@@ -50,7 +48,6 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    # category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='products')
     category = NullForeignKey(Category, related_name='products')
     name = models.CharField(verbose_name='Назва продукту', max_length=256)
     price = models.DecimalField(verbose_name='Ціна продукту', max_digits=5, decimal_places=2)

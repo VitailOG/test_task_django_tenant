@@ -13,15 +13,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-5*s_3t$y)+p4e#fv@ikw5mqn5mda7%er4*_&kmikvwrj4@ck7q'
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
 DEBUG = bool(os.getenv('SECRET_KEY'))
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "*").split(" ")
-# ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "*").split(" ")
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -31,7 +29,6 @@ SHARED_APPS = [
     'rest_framework.authtoken',
     'main',
 
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -46,7 +43,6 @@ SHARED_APPS = [
 ]
 
 TENANT_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -117,7 +113,6 @@ DATABASES = {
         "NAME": os.environ.get("SQL_DATABASE"),
         "USER": os.environ.get("SQL_USER"),
         "PASSWORD": os.environ.get("SQL_PASSWORD"),
-        # "HOST": "localhost",
         "HOST": os.environ.get("SQL_HOST"),
         "PORT": os.environ.get("SQL_PORT")
     }

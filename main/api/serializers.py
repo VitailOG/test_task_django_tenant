@@ -45,30 +45,33 @@ class CustomPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
 
 
 class MenuSerializer(serializers.ModelSerializer):
+    schema = serializers.CharField(read_only=True)
     restaurant_id = CustomPrimaryKeyRelatedField(
         queryset=Restaurant.objects.all(), error_messages={"type_error": "Type must be int"}
     )
 
     class Meta:
         model = Menu
-        fields = ("id", "restaurant_id", "type")
+        fields = ("id", "restaurant_id", "type", "schema")
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    schema = serializers.CharField(read_only=True)
     menu_id = CustomPrimaryKeyRelatedField(
         queryset=Menu.objects.all(), error_messages={"type_error": "Type must be int"}
     )
 
     class Meta:
         model = Category
-        fields = ("id", "menu_id", "name")
+        fields = ("id", "menu_id", "name", "schema")
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    schema = serializers.CharField(read_only=True)
     category_id = CustomPrimaryKeyRelatedField(
         queryset=Category.objects.all(), error_messages={"type_error": "Type must be int"}
     )
 
     class Meta:
         model = Product
-        fields = ("id", "category_id", "name", "price")
+        fields = ("id", "category_id", "name", "price", "schema")

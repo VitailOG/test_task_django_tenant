@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django_tenants.utils import schema_context
 from rest_framework import mixins, permissions
 from rest_framework.viewsets import GenericViewSet
@@ -18,5 +19,8 @@ class AppModelViewSet(
     permission_classes = [permissions.IsAuthenticated]
 
     def dispatch(self, request, *args, **kwargs):
-        with schema_context(request.schema_name):
-            return super().dispatch(request, *args, **kwargs)
+        try:
+            with schema_context(request.schema_name):
+                return super().dispatch(request, *args, **kwargs)
+        except AttributeError:
+            return JsonResponse({"message": "Restaurant does not exist"})
