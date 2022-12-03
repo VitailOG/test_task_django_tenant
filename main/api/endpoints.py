@@ -56,7 +56,6 @@ class RestaurantAPI(
 
 class MenusAPI(AppModelViewSet):
     serializer_class = MenuSerializer
-    queryset = Menu.objects.all()
 
     def get_queryset(self):
         return Menu.objects.annotate(schema=Value(self.request.schema_name))
@@ -64,7 +63,6 @@ class MenusAPI(AppModelViewSet):
 
 class CategoryAPI(AppModelViewSet):
     serializer_class = CategorySerializer
-    queryset = Category.objects.all()
 
     def get_queryset(self):
         return Category.objects.annotate(schema=Value(self.request.schema_name))
@@ -72,7 +70,6 @@ class CategoryAPI(AppModelViewSet):
 
 class ProductAPI(AppModelViewSet):
     serializer_class = ProductSerializer
-    queryset = Product.objects.all()
 
     def get_queryset(self):
         return Product.objects.annotate(schema=Value(self.request.schema_name))
