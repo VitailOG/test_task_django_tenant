@@ -113,13 +113,13 @@ docker-compose up -d
 - TENANT
   - Retrieve Menu with categories:
     - Method - GET
-    - Uri - http://<subdomain>.localhost:8002/retrieve-menu/<menu_id>/
+    - Uri - http://subdomain.localhost:8002/retrieve-menu/<menu_id>/
   
   - Retrieve Category with products:
     - Method - GET
-    - Uri - http://<subdomain>.localhost:8002/retrieve-category/<category_id>/
+    - Uri - http://subdomain.localhost:8002/retrieve-category/<category_id>/
   
   - Retrieve Product:
     - Method - GET
-    - Uri - http://<subdomain>.localhost:8002/retrieve-product/<product_id>/
+    - Uri - http://subdomain.localhost:8002/retrieve-product/<product_id>/
     
