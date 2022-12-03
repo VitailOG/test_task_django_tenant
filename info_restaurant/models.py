@@ -19,6 +19,8 @@ class NullForeignKey(models.ForeignKey):
         db_constraint: bool = True,
         **kwargs
     ):
+        """ Кастомний клас який за замовчування є необов'язковим
+        """
         super().__init__(
             to, on_delete, related_name, related_query_name, limit_choices_to,
             parent_link, to_field, db_constraint, **kwargs

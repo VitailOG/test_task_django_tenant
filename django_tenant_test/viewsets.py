@@ -16,6 +16,8 @@ class AppModelViewSet(
     GenericViewSet,
     SetSchemaView
 ):
+    """ Базовий контролер, який створює/редагує/виводить список/видаляє з правильною схемою
+    """
     permission_classes = [permissions.IsAuthenticated]
 
     def dispatch(self, request, *args, **kwargs):

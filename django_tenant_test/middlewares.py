@@ -2,6 +2,9 @@ from rest_framework.views import APIView
 
 
 class SetSchemaInRequestMiddleware:
+    """ Автоматично проставляє в об'єкт Request схему ресторану,
+        якщо вона існує і якщо в класі контролера атрибут `set_schema` дорівнює True
+    """
     def __init__(self, get_response):
         self.get_response = get_response
         self.user = None
