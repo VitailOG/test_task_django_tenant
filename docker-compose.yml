@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # django
@@ -9,7 +9,7 @@ services:
     env_file:
       - .env
     ports:
-        - "8002:8000"
+      - "8002:8000"
     depends_on:
       - db
 
@@ -22,7 +22,7 @@ services:
     env_file:
       - ./.env
     ports:
-      - "54323:5432"
+      - "54324:5432"
 
 volumes:
   postgresql_data:

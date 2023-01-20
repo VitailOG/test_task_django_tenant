@@ -3,6 +3,7 @@
 from django.db import migrations
 import django.db.models.deletion
 import info_restaurant.models
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
@@ -16,16 +17,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='category',
             name='menu',
-            field=info_restaurant.models.NullForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='categories', to='main.restaurant'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='categories', to='main.restaurant'),
         ),
         migrations.AlterField(
             model_name='menu',
             name='restaurant',
-            field=info_restaurant.models.NullForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='main.restaurant'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='main.restaurant'),
         ),
         migrations.AlterField(
             model_name='product',
             name='category',
-            field=info_restaurant.models.NullForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='products', to='info_restaurant.category'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='products', to='info_restaurant.category'),
         ),
     ]

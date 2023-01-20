@@ -1,7 +1,8 @@
-from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
+from django.contrib.auth.password_validation import validate_password
 
+from django_tenant_test.serializers import Serializer
 from users.models import CustomUserProfile
 
 
@@ -14,7 +15,7 @@ class RetrieveUserSerializer(serializers.Serializer):
         return obj.date_joined.strftime("%Y-%m-%d %H:%M:%S")
 
 
-class SignUpSerializer(serializers.Serializer):
+class SignUpSerializer(Serializer):
     email = serializers.EmailField(
         required=True,
         validators=[UniqueValidator(queryset=CustomUserProfile.objects.all())]
@@ -27,3 +28,6 @@ class SignUpSerializer(serializers.Serializer):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"password": "Password fields didn't match."})
         return attrs
+
+    class Meta:
+        exclude_fields = ["password2"]

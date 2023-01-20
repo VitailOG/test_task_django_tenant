@@ -1,4 +1,3 @@
-from django.db import connection, transaction
 from django.db.models import Value
 from rest_framework import response, status, permissions, mixins
 from rest_framework.generics import GenericAPIView
@@ -8,25 +7,20 @@ from django_tenant_test.viewsets import AppModelViewSet, SetSchemaView
 from info_restaurant.models import Menu, Category, Product
 from ..models import Restaurant
 from ..services.create_restaurant import RestaurantCreator
-from .serializers import (
-    CreateRestaurantSerializer,
-    MenuSerializer,
-    CategorySerializer,
-    ProductSerializer,
-    RestaurantSerializer
-)
+from . import serializers
 
 
 class CreateRestaurantAPI(GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = CreateRestaurantSerializer
+    serializer_class = serializers.CreateRestaurantSerializer
 
     def post(self, request):
         serializer = self.get_serializer(data=request.data | {"owner": request.user.id})
         serializer.is_valid(raise_exception=True)
-        id = RestaurantCreator(**serializer.validated_data)()
+        pk = RestaurantCreator(**serializer.validated_data)()
+        restaurant = serializer.validated_data | {"id": pk}
         return response.Response(
-            RestaurantSerializer(serializer.validated_data | {"id": id}).data, status=status.HTTP_201_CREATED
+            serializers.RestaurantSerializer(restaurant).data, status=status.HTTP_201_CREATED
         )
 
 
@@ -36,7 +30,7 @@ class RestaurantAPI(
     SetSchemaView,
 ):
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = RestaurantSerializer
+    serializer_class = serializers.RestaurantSerializer
     queryset = Restaurant.objects.all()
 
     def update(self, request, *args, **kwargs):
@@ -55,21 +49,21 @@ class RestaurantAPI(
 
 
 class MenusAPI(AppModelViewSet):
-    serializer_class = MenuSerializer
+    serializer_class = serializers.MenuSerializer
 
     def get_queryset(self):
         return Menu.objects.annotate(schema=Value(self.request.schema_name))
 
 
 class CategoryAPI(AppModelViewSet):
-    serializer_class = CategorySerializer
+    serializer_class = serializers.CategorySerializer
 
     def get_queryset(self):
         return Category.objects.annotate(schema=Value(self.request.schema_name))
 
 
 class ProductAPI(AppModelViewSet):
-    serializer_class = ProductSerializer
+    serializer_class = serializers.ProductSerializer
 
     def get_queryset(self):
         return Product.objects.annotate(schema=Value(self.request.schema_name))

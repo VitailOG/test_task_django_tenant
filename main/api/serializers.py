@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
@@ -33,22 +32,9 @@ class RestaurantSerializer(serializers.ModelSerializer):
         read_only_fields = ("schema_name",)
 
 
-class CustomPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
-    def to_internal_value(self, data):
-        if not isinstance(data, int):
-            assert "type_error" in self.error_messages, "Add to error_messages key type_error"
-            self.fail('type_error', pk_value=data)
-        try:
-            return self.get_queryset().get(id=data).id
-        except ObjectDoesNotExist:
-            self.fail('does_not_exist', pk_value=data)
-
-
 class MenuSerializer(serializers.ModelSerializer):
     schema = serializers.CharField(read_only=True)
-    restaurant_id = CustomPrimaryKeyRelatedField(
-        queryset=Restaurant.objects.all(), error_messages={"type_error": "Type must be int"}
-    )
+    # restaurant = serializers.PrimaryKeyRelatedField()  # todo test
 
     class Meta:
         model = Menu
@@ -57,9 +43,7 @@ class MenuSerializer(serializers.ModelSerializer):
 
 class CategorySerializer(serializers.ModelSerializer):
     schema = serializers.CharField(read_only=True)
-    menu_id = CustomPrimaryKeyRelatedField(
-        queryset=Menu.objects.all(), error_messages={"type_error": "Type must be int"}
-    )
+    # menu_id = serializers.PrimaryKeyRelatedField()
 
     class Meta:
         model = Category
@@ -68,9 +52,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     schema = serializers.CharField(read_only=True)
-    category_id = CustomPrimaryKeyRelatedField(
-        queryset=Category.objects.all(), error_messages={"type_error": "Type must be int"}
-    )
+    # category_id = serializers.PrimaryKeyRelatedField()
 
     class Meta:
         model = Product
